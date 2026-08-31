@@ -24,4 +24,4 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python main.py --prompt "اكتب هنا الشيء الذي تريد من البوت تنفيذه تلقائياً"
+          python main.py --prompt "hi"
