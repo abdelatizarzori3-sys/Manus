@@ -1,0 +1,6 @@
+[llm]
+model = "gemini-2.5-flash"
+base_url = "https://googleapis.com"
+api_key = "اكتب_مفتاحك_الحقيقي_هنا"
+max_tokens = 8192
+temperature = 0.1
