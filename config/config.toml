@@ -1,6 +1,5 @@
-[llm]
 model = "gemini-2.5-flash"
 base_url = "https://googleapis.com"
-api_key = "PASTE_YOUR_GEMINI_KEY_HERE"
-max_tokens = 8192
+api_key = "GEMINI_API_KEY"
+max_tokens = 8129
 temperature = 0.1
