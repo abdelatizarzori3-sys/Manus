@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملفات مشروع Manus</title>
+    <style>
+        body { font-family: sans-serif; background: #0d1117; color: #c9d1d9; padding: 20px; }
+        h1 { color: #58a6ff; border-bottom: 1px solid #21262d; padding-bottom: 10px; }
+        .file-list { list-style: none; padding: 0; }
+        .file-item { padding: 8px; border-bottom: 1px solid #21262d; display: flex; align-items: center; }
+        .file-item a { color: #58a6ff; text-decoration: none; font-size: 16px; }
+        .file-item a:hover { text-decoration: underline; }
+        .icon { margin-left: 10px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>📂 مستعرض ملفات مشروع Manus</h1>
+    <ul id="files" class="file-list">جاري تحميل الملفات...</ul>
+
+    <script>
+        const repo = "abdelatizarzori3-sys/Manus";
+        async function loadFiles() {
+            try {
+                const response = await fetch(`https://github.com{repo}/contents`);
+                const data = await response.json();
+                const list = document.getElementById('files');
+                list.innerHTML = '';
+                
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'file-item';
+                    const icon = item.type === 'dir' ? '📁' : '📄';
+                    li.innerHTML = `<span class="icon">${icon}</span> <a href="${item.html_url}" target="_blank">${item.name}</a>`;
+                    list.appendChild(li);
+                });
+            } catch (error) {
+                document.getElementById('files').innerText = 'فشل تحميل الملفات.';
+            }
+        }
+        loadFiles();
+    </script>
+</body>
+</html>
