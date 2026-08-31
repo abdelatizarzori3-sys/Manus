@@ -2,6 +2,11 @@ name: Run OpenManus Bot
 
 on:
   workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'اكتب هنا تفاصيل مشروعك أو المهمة التي تريد من البوت تنفيذها'
+        required: true
+        default: 'اكتب كود بايثون بسيط لحساب عمر المستخدم'
 
 jobs:
   run-agent:
@@ -24,4 +29,4 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python main.py --prompt "hi"
+          python main.py --prompt "${{ github.event.inputs.prompt }}"
