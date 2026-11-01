@@ -1,10 +1,26 @@
 import asyncio
+import argparse
 
 from app.agent.manus import Manus
 from app.logger import logger
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse local CLI options without treating them as entitlement evidence."""
+    parser = argparse.ArgumentParser(description="Run a Manus agent session.")
+    parser.add_argument(
+        "--export-session-report",
+        metavar="PATH",
+        help=(
+            "Request a Pro Markdown report after this session. It requires an "
+            "authenticated account and a configured server subscription verifier."
+        ),
+    )
+    return parser.parse_args()
+
+
 async def main():
+    args = parse_args()
     # Create and initialize Manus agent
     agent = await Manus.create()
     try:
@@ -16,6 +32,12 @@ async def main():
         logger.warning("Processing your request...")
         await agent.run(prompt)
         logger.info("Request processing completed.")
+        if args.export_session_report:
+            logger.error(
+                "Pro session-report export needs purchase setup: this CLI has no "
+                "authenticated account context or configured server entitlement "
+                "verifier. No local activation or report file was created."
+            )
     except KeyboardInterrupt:
         logger.warning("Operation interrupted.")
     finally:
