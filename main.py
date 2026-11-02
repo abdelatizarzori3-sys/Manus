@@ -1,9 +1,23 @@
 import asyncio
 import argparse
+import sys
 
 from app.agent.manus import Manus
 from app.logger import logger
 
+
+def render_console_header() -> None:
+    """Render a compact terminal-only interface without changing agent behavior."""
+    if not sys.stdout.isatty():
+        return
+    cyan = "\033[96m"
+    violet = "\033[95m"
+    dim = "\033[2m"
+    reset = "\033[0m"
+    print(f"{violet}╔══════════════════════════════════════╗{reset}")
+    print(f"{violet}║{reset} {cyan}MANUS // SESSION CONSOLE{reset}              {violet}║{reset}")
+    print(f"{violet}║{reset} {dim}Prompt → run → inspect → report{reset}        {violet}║{reset}")
+    print(f"{violet}╚══════════════════════════════════════╝{reset}")
 
 def parse_args() -> argparse.Namespace:
     """Parse local CLI options without treating them as entitlement evidence."""
@@ -21,6 +35,7 @@ def parse_args() -> argparse.Namespace:
 
 async def main():
     args = parse_args()
+    render_console_header()
     # Create and initialize Manus agent
     agent = await Manus.create()
     try:
