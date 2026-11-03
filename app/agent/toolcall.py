@@ -1,12 +1,16 @@
 import asyncio
 import json
+from pathlib import Path
 from typing import Any, List, Optional, Union
 
 from pydantic import Field
 
 from app.agent.react import ReActAgent
+from app.config import config
 from app.exceptions import TokenLimitExceeded
 from app.logger import logger
+from app.pro.entitlement import EntitlementVerifier
+from app.pro.session_report import write_pro_session_report
 from app.prompt.toolcall import NEXT_STEP_PROMPT, SYSTEM_PROMPT
 from app.schema import TOOL_CHOICE_TYPE, AgentState, Message, ToolCall, ToolChoice
 from app.tool import CreateChatCompletion, Terminate, ToolCollection
@@ -241,6 +245,26 @@ class ToolCallAgent(ReActAgent):
                         f"🚨 Error cleaning up tool '{tool_name}': {e}", exc_info=True
                     )
         logger.info(f"✨ Cleanup complete for agent '{self.name}'.")
+
+    def export_pro_session_report(
+        self,
+        *,
+        account_id: str,
+        verifier: EntitlementVerifier,
+        destination: Path,
+    ) -> Path:
+        """Export this agent's recorded session after server-side Pro verification.
+
+        The report function consumes ``self.messages`` only. It does not call
+        the LLM, execute a tool, or replay a prior action.
+        """
+        return write_pro_session_report(
+            account_id=account_id,
+            verifier=verifier,
+            messages=self.messages,
+            destination=destination,
+            workspace_root=config.workspace_root,
+        )
 
     async def run(self, request: Optional[str] = None) -> str:
         """Run the agent with cleanup when done."""
