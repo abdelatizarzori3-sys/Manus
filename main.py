@@ -1,5 +1,5 @@
-import asyncio
 import argparse
+import asyncio
 import sys
 
 from app.agent.manus import Manus
@@ -15,9 +15,14 @@ def render_console_header() -> None:
     dim = "\033[2m"
     reset = "\033[0m"
     print(f"{violet}╔══════════════════════════════════════╗{reset}")
-    print(f"{violet}║{reset} {cyan}MANUS // SESSION CONSOLE{reset}              {violet}║{reset}")
-    print(f"{violet}║{reset} {dim}Prompt → run → inspect → report{reset}        {violet}║{reset}")
+    print(
+        f"{violet}║{reset} {cyan}MANUS // SESSION CONSOLE{reset}              {violet}║{reset}"
+    )
+    print(
+        f"{violet}║{reset} {dim}Prompt → run → inspect → report{reset}        {violet}║{reset}"
+    )
     print(f"{violet}╚══════════════════════════════════════╝{reset}")
+
 
 def parse_args() -> argparse.Namespace:
     """Parse local CLI options without treating them as entitlement evidence."""

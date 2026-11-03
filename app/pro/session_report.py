@@ -24,8 +24,13 @@ MAX_OUTPUT_CHARS = 600
 # The patterns intentionally redact broadly: a report is a summary, not a place
 # to preserve credentials or private file references from arbitrary tool output.
 _FULL_SECRET_PATTERNS = (
-    re.compile(r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----.*?-----END [A-Z0-9 ]*PRIVATE KEY-----", re.DOTALL),
-    re.compile(r"\b(?:sk-(?:proj-|ant-)?|gh[pousr]_|github_pat_|xox[baprs]-|AIza)[A-Za-z0-9_\-]{12,}\b"),
+    re.compile(
+        r"-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----.*?-----END [A-Z0-9 ]*PRIVATE KEY-----",
+        re.DOTALL,
+    ),
+    re.compile(
+        r"\b(?:sk-(?:proj-|ant-)?|gh[pousr]_|github_pat_|xox[baprs]-|AIza)[A-Za-z0-9_\-]{12,}\b"
+    ),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     re.compile(r"\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b"),
     re.compile(r"file://[^\s)`>'\"]+", re.IGNORECASE),
@@ -184,7 +189,9 @@ def _safe_report_destination(destination: Path, workspace_root: Path) -> Path:
     try:
         resolved_destination.relative_to(resolved_workspace)
     except ValueError as error:
-        raise PermissionError("Session reports may only be written inside the workspace.") from error
+        raise PermissionError(
+            "Session reports may only be written inside the workspace."
+        ) from error
     return resolved_destination
 
 

@@ -86,11 +86,15 @@ def require_active_pro_subscription(
     """
     normalized_account_id = account_id.strip()
     if not normalized_account_id:
-        raise ProAccessDeniedError("An authenticated account is required for Pro access.")
+        raise ProAccessDeniedError(
+            "An authenticated account is required for Pro access."
+        )
 
     entitlement = verifier.verify_subscription(account_id=normalized_account_id)
     if entitlement.account_id != normalized_account_id:
-        raise ProAccessDeniedError("The verified subscription belongs to another account.")
+        raise ProAccessDeniedError(
+            "The verified subscription belongs to another account."
+        )
 
     current_time = now or datetime.now(UTC)
     if current_time.tzinfo is None:

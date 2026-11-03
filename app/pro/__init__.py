@@ -10,6 +10,7 @@ from app.pro.entitlement import (
 )
 from app.pro.session_report import render_session_report, write_pro_session_report
 
+
 __all__ = [
     "EntitlementConfigurationError",
     "EntitlementVerifier",
